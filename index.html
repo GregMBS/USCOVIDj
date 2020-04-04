@@ -1,0 +1,58 @@
+<html>
+
+<head>
+    <title>US States COVID-19 Graphs</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.9/jquery.csv.min.js"></script>
+    <style>
+        img {
+            <!--width: 25%-->
+        }
+        
+        h1 {
+            text-align: center;
+            font-family: Calibri, Arial, sans-serif
+        }
+        
+        h2 {
+            font-family: Calibri, Arial, sans-serif
+        }
+    </style>
+</head>
+
+<body>
+    <div id='logo'>
+        <a href='https://www.gmbs-consulting.com'><img src='cropped-logo-clear-small.png' /></a>
+    </div>
+    <h1>US States COVID-19 Graphs</h1>
+    <p>According to the New York Times:</p>
+    <blockquote>
+        The New York Times is releasing a series of data files with cumulative counts of coronavirus cases in the United States, at the state and county level, over time. We are compiling this time series data from state and local governments and health departments in an attempt to provide a complete record of the ongoing outbreak.
+        <br>
+        <br> Since late January, The Times has tracked cases of coronavirus in real time as they were identified after testing. Because of the widespread shortage of testing, however, the data is necessarily limited in the picture it presents of the outbreak.
+    </blockquote>
+    <p>The goal of this site is to present the New York Times data graphically in order to make it more accessible for general use.</p>
+
+    <h2>Select a state: </h2>
+    <select id='states'></select>
+    <div class="chart-container" style="position: relative; width:90%; padding: 0 5% 0 5%">
+        <canvas id="coronavirus-linear"></canvas>
+    </div>
+    <hr>
+    <div class="chart-container" style="position: relative; width:90%; padding: 0 5% 0 5%">
+        <canvas id="coronavirus-log"></canvas>
+    </div>
+    <script src="chartjs_block.js"></script>
+    <script src="covid_chart.js"></script>
+    <hr />
+    <cite style="clear: both">Data from The New York Times, based on reports from state and local health agencies.<br>
+More data available at <a href="https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html">Coronavirus in the U.S.: Latest Map and Case Count</a><br>
+<br>
+&copy;Gregory M. Blumenthal 2020
+<a href='https://www.gmbs-consulting.com'>GMBS Consulting</a>
+covid@gmbs-consulting.com
+</cite>
+</body>
+
+</html>
