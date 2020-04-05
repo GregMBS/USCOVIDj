@@ -1,6 +1,6 @@
-function graph (label, dates, cases, deaths) {
-	var ctx = document.getElementById('coronavirus-linear').getContext('2d');
-	var myChart = new Chart(ctx, {
+function setConfigs (label, dates, cases, deaths) {
+	var output = {};
+	var configx = {
 		type: 'line',
 		data: {
 			labels: dates,
@@ -22,7 +22,7 @@ function graph (label, dates, cases, deaths) {
 				display: true,
 				text: label + ' (linear scale)'
 			},
-            scales: {
+						scales: {
 				yAxes: [{
 					type: 'linear',
 					ticks: {
@@ -33,9 +33,8 @@ function graph (label, dates, cases, deaths) {
 					}}]
 			}
 		}
-	});
-	var cty = document.getElementById('coronavirus-log').getContext('2d');
-	var myChart2 = new Chart(cty, {
+	};
+	var configy = {
 		type: 'line',
 		data: {
 			labels: dates,
@@ -70,5 +69,18 @@ function graph (label, dates, cases, deaths) {
 					}}]
 			}
 		}
-	});
+	};
+	output.linear = configx;
+	output.log = configy;
+	return output;
+}
+function graph (label, dates, cases, deaths) {
+	configs = setConfigs(label, dates, cases, deaths);
+	const clin = $('#coronavirus-linear')[0];
+  var ctx = clin.getContext('2d');
+	var myChart = new Chart(ctx, configs.linear);
+
+	const clog = $('#coronavirus-log')[0];
+  var cty = clog.getContext('2d');
+	var myChart2 = new Chart(cty, configs.log);
 }

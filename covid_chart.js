@@ -1,3 +1,4 @@
+var stateList = [];
 function sumByDate(obj) {
 	var result = [];
 	obj.forEach(function (o) {
@@ -16,44 +17,48 @@ function sumByDate(obj) {
 	return result;
 }
 $(function() {
+	const urlParams = new URLSearchParams(window.location.search);
+  var myState = urlParams.get('state');
+	if (myState == null) {
+		myState = '';
+	}
 	$.ajax({
 		  dataType: 'text',
 			async: false,
 		  url: "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv",
 		  success: function( csvd ) {
 				var data = $.csv.toObjects(csvd);
-				var text = JSON.stringify(data);
-				$('#data').val(text);
-				getCharts('all', data);
+				getChart(myState, data);
 				$('#states').change(function() {
-					  data = JSON.parse($('#data').val());
-						getCharts($('#states').val(), data)
+					var newState = $(this).val();
+					const url = '?state=' + newState;
+					location.href = url;
 				});
 			}
 	  });
 });
-function getCharts(mystate, result) {
+function getChart(myState, result) {
 	const formatter = new Intl.DateTimeFormat('en-us', { month: 'short', day: 'numeric' });
 	var dates=[];
 	var cases=[];
 	var deaths=[];
 	$('#states').empty();
-	const stateList = [...new Set(result.map(item => item.state))].sort();
-	var option = '<option value="all">US</option>';
+	stateList = [...new Set(result.map(item => item.state))].sort();
+	var option = '<option value="">US</option>';
 	for (var i=0;i<stateList.length;i++){
 	  option += '<option value="'+ stateList[i] + '">' + stateList[i] + '</option>';
 	}
 	$('#states').append(option);
-	var label = mystate;
-	if (mystate == "all") {
+	if (!stateList.includes(myState)) {
 		var output=sumByDate(result);
-		label = 'US';
+		var label = 'US';
 	} else {
 		var interim=result.
 			filter(function (x) {
-				return x.state == mystate;
+				return x.state == myState;
 			});
 		var output=sumByDate(interim);
+		var label = myState;
 	}
 	$('#covid').html(output);
 	output.forEach(function (item) {
