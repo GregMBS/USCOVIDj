@@ -44,11 +44,6 @@ function getChart(myState, result) {
 	var deaths=[];
 	$('#states').empty();
 	stateList = [...new Set(result.map(item => item.state))].sort();
-	var option = '<option value="">US</option>';
-	for (var i=0;i<stateList.length;i++){
-	  option += '<option value="'+ stateList[i] + '">' + stateList[i] + '</option>';
-	}
-	$('#states').append(option);
 	if (!stateList.includes(myState)) {
 		var output=sumByDate(result);
 		var label = 'US';
@@ -60,6 +55,15 @@ function getChart(myState, result) {
 		var output=sumByDate(interim);
 		var label = myState;
 	}
+	var option = '<option value="">US</option>';
+	for (var i=0;i<stateList.length;i++){
+		if (stateList[i] == label) {
+			option += '<option value="'+ stateList[i] + '" selected="selected">' + stateList[i] + '</option>'
+		} else {
+			option += '<option value="'+ stateList[i] + '">' + stateList[i] + '</option>'
+		};
+	}
+	$('#states').append(option);
 	$('#covid').html(output);
 	output.forEach(function (item) {
 		var d1 = new Date(item.date);
