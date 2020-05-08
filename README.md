@@ -2,7 +2,7 @@
 
 US State COVID-19 Graphs (USCOVID)
 
-This Ruby-on-Rails web app was developed by Gregory M. Blumenthal at 
+This web app was developed by Gregory M. Blumenthal at 
 GMBS Consulting.
 
 The data is pulled from the GitHub site for The New York Times, based 

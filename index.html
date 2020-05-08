@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 
 <head>
     <title>US States COVID-19 Graphs</title>
@@ -24,18 +24,18 @@
 <body>
     <input id='data' type="hidden" value="" />
     <div id='logo'>
-        <a href='https://www.gmbs-consulting.com'><img src='cropped-logo-clear-small.png' /></a>
+        <a href='https://www.gmbs-consulting.com'><img src='cropped-logo-clear-small.png' alt="GMBS Consulting" /></a>
     </div>
     <h1>US States COVID-19 Graphs</h1>
     <p>According to the New York Times:</p>
     <blockquote>
-        The New York Times is releasing a series of data files with cumulative counts of coronavirus cases in the United States, at the state and county level, over time. We are compiling this time series data from state and local governments and health departments in an attempt to provide a complete record of the ongoing outbreak.
+        The New York Times is releasing a series of data files with probable cumulative counts of coronavirus cases and deaths in the United States, at the state and county level, over time. We are compiling this time series data from state and local governments and health departments in an attempt to provide a complete record of the ongoing outbreak.
         <br>
-        <br> Since late January, The Times has tracked cases of coronavirus in real time as they were identified after testing. Because of the widespread shortage of testing, however, the data is necessarily limited in the picture it presents of the outbreak.
+        <br> Since late January, The Times has tracked probable cases of coronavirus and deaths presumed to be caused by it in real time as they were identified after testing. Because of the widespread shortage of testing, however, the data is necessarily limited in the picture it presents of the outbreak.
     </blockquote>
     <p>The goal of this site is to present the New York Times data graphically in order to make it more accessible for general use.</p>
 
-    <h2>Select a state: </h2>
+    <h2><label for="states">Select a state: </label></h2>
     <select id='states'></select>
     <div id="linear-container" class="chart-container" style="position: relative; width:90%; padding: 0 5% 0 5%">
         <canvas id="coronavirus-linear"></canvas>

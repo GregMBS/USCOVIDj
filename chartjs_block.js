@@ -1,6 +1,6 @@
 function setConfigs (label, dates, cases, deaths) {
-	var output = {};
-	var configx = {
+	let output = {};
+	let configX = {
 		type: 'line',
 		data: {
 			labels: dates,
@@ -26,7 +26,7 @@ function setConfigs (label, dates, cases, deaths) {
 				yAxes: [{
 					type: 'linear',
 					ticks: {
-						callback: function(label, index, labels) {
+						callback: function(label) {
 							return Intl.NumberFormat('en-us').format(label);
 						},
 						fontSize: 14
@@ -34,7 +34,7 @@ function setConfigs (label, dates, cases, deaths) {
 			}
 		}
 	};
-	var configy = {
+	let configy = {
 		type: 'line',
 		data: {
 			labels: dates,
@@ -62,7 +62,7 @@ function setConfigs (label, dates, cases, deaths) {
 					ticks: {
 						autoSkip: true,
 						autoSkipPadding: 8,
-						callback: function(label, index, labels) {
+						callback: function(label) {
 							return Intl.NumberFormat('en-us').format(label);
 						},
 						fontSize: 14
@@ -70,17 +70,17 @@ function setConfigs (label, dates, cases, deaths) {
 			}
 		}
 	};
-	output.linear = configx;
+	output.linear = configX;
 	output.log = configy;
 	return output;
 }
 function graph (label, dates, cases, deaths) {
-	configs = setConfigs(label, dates, cases, deaths);
-	const clin = $('#coronavirus-linear')[0];
-  var ctx = clin.getContext('2d');
-	var myChart = new Chart(ctx, configs.linear);
+	const configs = setConfigs(label, dates, cases, deaths);
+	const cline = $('#coronavirus-linear')[0];
+    const ctx = cline.getContext('2d');
+	let myChart = new Chart(ctx, configs.linear);
 
 	const clog = $('#coronavirus-log')[0];
-  var cty = clog.getContext('2d');
-	var myChart2 = new Chart(cty, configs.log);
+    const cty = clog.getContext('2d');
+	let myChart2 = new Chart(cty, configs.log);
 }
