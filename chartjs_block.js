@@ -28,7 +28,7 @@ function setConfigs (label, dates, cases, deaths) {
 					type: 'linear',
 					ticks: {
 						callback: function(label) {
-							return Intl.NumberFormat('en-us').format(label);
+							return new Intl.NumberFormat('en-us').format(label);
 						},
 						fontSize: 14
 					}}]
@@ -64,7 +64,7 @@ function setConfigs (label, dates, cases, deaths) {
 						autoSkip: true,
 						autoSkipPadding: 8,
 						callback: function(label) {
-							return Intl.NumberFormat('en-us').format(label);
+							return new Intl.NumberFormat('en-us').format(label);
 						},
 						fontSize: 14
 					}}]
@@ -96,7 +96,7 @@ function setConfigs (label, dates, cases, deaths) {
 						autoSkip: true,
 						autoSkipPadding: 8,
 						callback: function(label) {
-							return Intl.NumberFormat('en-us').format(label);
+							return new Intl.NumberFormat('en-us').format(label);
 						},
 						fontSize: 14
 					}}]
@@ -122,4 +122,8 @@ function graph (label, dates, cases, deaths) {
 	const cpc = $('#coronavirus-percent')[0];
 	const ctp = cpc.getContext('2d');
 	let myChart3 = new Chart(ctp, configs.percent);
+
+	myChart.update();
+	myChart2.update();
+	myChart3.update();
 }
