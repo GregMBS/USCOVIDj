@@ -5,7 +5,7 @@ function setConfigs (label, dates, cases, deaths) {
 			if (denom === 0) {
 				denom = 1;
 			}
-			return n / cases[i]; 
+			return n / denom; 
 		}
 		return 0;
 		});
