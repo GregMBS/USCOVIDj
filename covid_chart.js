@@ -31,7 +31,7 @@ $(function () {
     })
         .done(function (csvD) {
             const orig = $.csv.toObjects(csvD);
-            const data = orig.slice(-30);
+            const data = orig.slice(-1600);
             getChart(myState, data);
             $('#states').change(function () {
                 const newState = $(this).val();
