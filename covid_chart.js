@@ -30,7 +30,8 @@ $(function () {
         url: "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv"
     })
         .done(function (csvD) {
-            const data = $.csv.toObjects(csvD);
+            const orig = $.csv.toObjects(csvD);
+            const data = orig.slice(-30);
             getChart(myState, data);
             $('#states').change(function () {
                 const newState = $(this).val();
