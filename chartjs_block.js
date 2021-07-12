@@ -1,7 +1,7 @@
 function setConfigs (label, dates, cases, deaths) {
 	let percent_death = deaths.map(function(n, i) {
-		if (i>13) {
-			let denom = cases[i-13];
+		if (i>1) {
+			let denom = cases[i-1];
 			if (denom === 0) {
 				denom = 1;
 			}
