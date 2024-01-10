@@ -2,9 +2,67 @@
 
 <head>
     <title>US States COVID-19 Graphs</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.9/jquery.csv.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"
+            integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        function makeplot(st) {
+            Plotly.d3.csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv", function (data) {
+                processData(data, st)
+            });
+
+        }
+
+        function processData(allRows, st) {
+
+            var dates = [];
+            var cases = [];
+            var deaths = [];
+            for (var i = 0; i < allRows.length; i++) {
+                var row = allRows[i];
+                if (row['state'] === st) {
+                    dates.push(row['date'])
+                    cases.push(row['cases'])
+                    deaths.push(row['deaths'])
+                }
+            }
+            makePlotly(dates, cases, deaths, st);
+        }
+
+        function makePlotly(x, y1, y2, st) {
+            var trace1 = {
+                x: x,
+                y: y1,
+                name: 'cases',
+                type: 'line'
+            };
+            var trace2 = {
+                x: x,
+                y: y2,
+                name: 'deaths',
+                type: 'line',
+                yaxis: 'y2'
+            };
+            var traces = [trace1, trace2]
+            var layout = {
+                title: 'COVID cases and deaths in ' + st,
+                yaxis: {
+                    title: 'cases',
+                    titlefont: {color: '#0000ff'},
+                    tickfont: {color: '#0000ff'}
+                },
+                yaxis2: {
+                    title: 'deaths',
+                    titlefont: {color: '#FF7500'},
+                    tickfont: {color: '#FF7500'},
+                    overlaying: 'y',
+                    side: 'right'
+                }
+            };
+            Plotly.newPlot('myDiv', traces, layout);
+        }
+    </script>
     <style>
         h1 {
             text-align: center;
@@ -18,42 +76,104 @@
 </head>
 
 <body>
-    <input id='data' type="hidden" value="" />
-    <div id='logo'>
-        <a href='https://www.gmbs-consulting.com'><img src='cropped-logo-clear-small.png' alt="GMBS Consulting" /></a>
-    </div>
-    <h1>US States COVID-19 Graphs</h1>
-    <p>According to the New York Times:</p>
-    <blockquote>
-        The New York Times is releasing a series of data files with probable cumulative counts of coronavirus cases and deaths in the United States, at the state and county level, over time. We are compiling this time series data from state and local governments and health departments in an attempt to provide a complete record of the ongoing outbreak.
-        <br>
-        <br> Since late January, The Times has tracked probable cases of coronavirus and deaths presumed to be caused by it in real time as they were identified after testing. Because of the widespread shortage of testing, however, the data is necessarily limited in the picture it presents of the outbreak.
-    </blockquote>
-    <p>The goal of this site is to present the New York Times data graphically in order to make it more accessible for general use.</p>
+<input id='data' type="hidden" value=""/>
+<div id='logo'>
+    <a href='https://www.gmbs-consulting.com'><img src='cropped-logo-clear-small.png' alt="GMBS Consulting"/></a>
+</div>
+<h1>US States COVID-19 Graphs</h1>
+<p>According to the New York Times:</p>
+<blockquote>
+    The New York Times is releasing a series of data files with probable cumulative counts of coronavirus cases and
+    deaths in the United States, at the state and county level, over time. We are compiling this time series data from
+    state and local governments and health departments in an attempt to provide a complete record of the ongoing
+    outbreak.
+    <br>
+    <br> Since late January, The Times has tracked probable cases of coronavirus and deaths presumed to be caused by it
+    in real time as they were identified after testing. Because of the widespread shortage of testing, however, the data
+    is necessarily limited in the picture it presents of the outbreak.
+</blockquote>
+<p>The goal of this site is to present the New York Times data graphically in order to make it more accessible for
+    general use.</p>
 
-    <h2><label for="states">Select a state: </label></h2>
-    <select id='states'></select>
-    <div id="linear-container" class="chart-container" style="position: relative; width:90%; padding: 0 5% 0 5%">
-        <canvas id="coronavirus-linear"></canvas>
-    </div>
-    <hr>
-    <div id="log-container" class="chart-container" style="position: relative; width:90%; padding: 0 5% 0 5%">
-        <canvas id="coronavirus-log"></canvas>
-    </div>
-    <hr>
-    <div id="percent-container" class="chart-container" style="position: relative; width:90%; padding: 0 5% 0 5%">
-        <canvas id="coronavirus-percent"></canvas>
-    </div>
-    <script src="chartjs_block.js"></script>
-    <script src="covid_chart.js"></script>
-    <hr />
-    <cite style="clear: both">Data from The New York Times, based on reports from state and local health agencies.<br>
-More data available at <a href="https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html">Coronavirus in the U.S.: Latest Map and Case Count</a><br>
-<br>
-&copy;Gregory M. Blumenthal 2020
-<a href='https://www.gmbs-consulting.com'>GMBS Consulting</a>
-covid@gmbs-consulting.com
+<h2><label for="states">Select a state: </label></h2>
+<select id='states' onchange="makeplot(value)">
+    <option value='Alabama'>Alabama</option>
+    <option value='Alaska'>Alaska</option>
+    <option value='American Samoa'>American Samoa</option>
+    <option value='Arizona'>Arizona</option>
+    <option value='Arkansas'>Arkansas</option>
+    <option value='California'>California</option>
+    <option value='Colorado'>Colorado</option>
+    <option value='Connecticut'>Connecticut</option>
+    <option value='Delaware'>Delaware</option>
+    <option value='District of Columbia'>District of Columbia</option>
+    <option value='Florida'>Florida</option>
+    <option value='Georgia'>Georgia</option>
+    <option value='Guam'>Guam</option>
+    <option value='Hawaii'>Hawaii</option>
+    <option value='Idaho'>Idaho</option>
+    <option value='Illinois'>Illinois</option>
+    <option value='Indiana'>Indiana</option>
+    <option value='Iowa'>Iowa</option>
+    <option value='Kansas'>Kansas</option>
+    <option value='Kentucky'>Kentucky</option>
+    <option value='Louisiana'>Louisiana</option>
+    <option value='Maine'>Maine</option>
+    <option value='Maryland'>Maryland</option>
+    <option value='Massachusetts'>Massachusetts</option>
+    <option value='Michigan'>Michigan</option>
+    <option value='Minnesota'>Minnesota</option>
+    <option value='Mississippi'>Mississippi</option>
+    <option value='Missouri'>Missouri</option>
+    <option value='Montana'>Montana</option>
+    <option value='Nebraska'>Nebraska</option>
+    <option value='Nevada'>Nevada</option>
+    <option value='New Hampshire'>New Hampshire</option>
+    <option value='New Jersey'>New Jersey</option>
+    <option value='New Mexico'>New Mexico</option>
+    <option value='New York'>New York</option>
+    <option value='North Carolina'>North Carolina</option>
+    <option value='North Dakota'>North Dakota</option>
+    <option value='Northern Mariana Islands'>Northern Mariana Islands</option>
+    <option value='Ohio'>Ohio</option>
+    <option value='Oklahoma'>Oklahoma</option>
+    <option value='Oregon'>Oregon</option>
+    <option value='Pennsylvania'>Pennsylvania</option>
+    <option value='Puerto Rico'>Puerto Rico</option>
+    <option value='Rhode Island'>Rhode Island</option>
+    <option value='South Carolina'>South Carolina</option>
+    <option value='South Dakota'>South Dakota</option>
+    <option value='Tennessee' selected="selected">Tennessee</option>
+    <option value='Texas'>Texas</option>
+    <option value='Utah'>Utah</option>
+    <option value='Vermont'>Vermont</option>
+    <option value='Virgin Islands'>Virgin Islands</option>
+    <option value='Virginia'>Virginia</option>
+    <option value='Washington'>Washington</option>
+    <option value='West Virginia'>West Virginia</option>
+    <option value='Wisconsin'>Wisconsin</option>
+    <option value='Wyoming'>Wyoming</option>
+</select>
+<div id="myDiv"></div>
+<!--
+<hr>
+<div id="linear-container" class="chart-container" style="position: relative; width:90%; padding: 0 5% 0 5%"></div>
+<hr>
+<div id="log-container" class="chart-container" style="position: relative; width:90%; padding: 0 5% 0 5%"></div>
+<hr>
+<div id="percent-container" class="chart-container" style="position: relative; width:90%; padding: 0 5% 0 5%"></div>
+<hr>
+-->
+<cite style="clear: both">Data from The New York Times, based on reports from state and local health agencies.<br>
+    More data available at <a href="https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html">Coronavirus
+        in the U.S.: Latest Map and Case Count</a><br>
+    <br>
+    &copy;Gregory M. Blumenthal 2020
+    <a href='https://www.gmbs-consulting.com'>GMBS Consulting</a>
+    covid@gmbs-consulting.com
 </cite>
+<script>
+    makeplot('Tennessee');
+</script>
 </body>
-
 </html>
